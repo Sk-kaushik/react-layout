@@ -1,0 +1,105 @@
+@mixin center($alignment: "") {
+  display: flex;
+
+  @if $alignment == "vertical" {
+    align-items: center;
+  }
+  @if $alignment == "horizontal" {
+    justify-content: center;
+  }
+
+  @if $alignment == "" {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.main-layout-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+
+  grid-template-columns: minmax(0, min-content) auto;
+  grid-auto-flow: column;
+
+  &.fullscreen {
+    .header,
+    .footer {
+      height: 0;
+    }
+
+    .sidebar {
+      width: 0;
+    }
+  }
+}
+
+.header {
+  @include center();
+  grid-area: header;
+  height: 60px;
+  border-bottom: 1px solid rgb(82, 82, 82);
+  transition: 0.5s;
+
+  .nav-container {
+    display: flex;
+    a {
+      padding: 10px;
+    }
+  }
+  &.hide {
+    height: 0;
+  }
+}
+
+.sidebar {
+  grid-area: sidebar;
+  border-right: 1px solid rgb(82, 82, 82);
+  width: 300px;
+  transition: 0.5s;
+  overflow: hidden;
+
+  @include center();
+
+  &.collapse {
+    width: 100px;
+  }
+
+  &.hide {
+    width: 0;
+  }
+}
+
+.main {
+  grid-area: main;
+  background: rgb(242, 147, 147);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @include center();
+
+  & button {
+    width: 130px;
+    background: white;
+    margin: 10px 0;
+    border: none;
+    padding: 5px;
+    display: block;
+  }
+}
+
+.footer {
+  height: 60px;
+  grid-area: footer;
+  border-top: 1px solid rgb(82, 82, 82);
+  transition: 0.5s;
+  overflow: hidden;
+
+  @include center();
+}
